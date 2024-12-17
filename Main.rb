@@ -2,18 +2,21 @@ require './Checker'
 require './Account_Holder'
 require './AccountManager'
 require './Operation'
+require './FileSaving'
 class Main
   #include module
   # include Account
   extend Account_Manager
   extend Checker
   extend Operation
+  extend Save
   @@accounts=[]
-  attr :account,:operation,:auth
+  attr_accessor :account,:operation,:auth,:save
 
   #per Instance call choice_option method
   def initialize
     choice_option
+   
   end
 
   # #to get Account_holder detail
@@ -46,6 +49,7 @@ class Main
         puts "your detail are saved"
       when 4
         puts "exit"
+        to_save_file
         break
       else
         puts "Invalid choice"
@@ -72,6 +76,7 @@ class Main
     dash_board
    when "close"
     puts "Exit----------------"
+    to_save_file
     break
    else
     puts "Invalid choice"
@@ -83,8 +88,18 @@ class Main
   def to_save 
     temp=Account_Manager.hash_register(account)
     @@accounts<<temp
+
+  end
+   
+  #to save Data prmanent
+  def to_save_file
+   Save.to_save(@@accounts)
   end
 
+  #to_read file
+   def to_read_content
+     save.process
+   end
 end
 
 Main.new 
