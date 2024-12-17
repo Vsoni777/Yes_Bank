@@ -1,5 +1,5 @@
 require './Checker'
-require './Account_Holder'
+require './AccountHolder'
 require './AccountManager'
 require './Operation'
 require './FileSaving'
