@@ -5,10 +5,12 @@ module Save
   # Method to save the hash as key=value pairs in the file
   def self.to_save(hash_value)
     File.open(FILE_PATH, 'w+') do |f|
-      hash_value.each do |element|
+      hash_value.each_with_index do |index,element|
+        f.puts("#{index}=[")
         element.each do |key,value|
         f.puts("#{key}=#{value}") # Write key-value pair in the format key=value
         end
+        f.puts("]")
       end
     end
   end

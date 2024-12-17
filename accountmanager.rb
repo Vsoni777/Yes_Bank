@@ -1,4 +1,4 @@
-module Account_Manager
+module AccountManager
   
 
   #to create Speration
