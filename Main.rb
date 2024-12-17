@@ -73,7 +73,7 @@ class Main
     
    when "display"
     Operation.display(auth,choice)
-    dash_board
+    to_read_content
    when "close"
     puts "Exit----------------"
     to_save_file
@@ -98,7 +98,7 @@ class Main
 
   #to_read file
    def to_read_content
-     save.process
+     @@accounts=save.process(@@accounts)
    end
 end
 
