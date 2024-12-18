@@ -5,19 +5,12 @@ module Checker
    end
 
    #check login detail for authentication
-   def self.login(email,password,accounts)
-    matched=accounts.find do |account|
-      account[:email]==email && account[:passsword]==password
-    end
-    if matched
-      puts "login Successfully"
-      puts "You are logged in : #{matched[:name]}"
-      return matched
-    else 
-      puts "Invalid detail"
-    end
-    
+   #handle exception
+   def self.login(customer_id,accounts)
+    return accounts[customer_id]
    end
-    
-    
+
+   def self.check(customer_id,accounts)
+    return accounts.has_key?(customer_id)
+   end
 end

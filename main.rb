@@ -1,20 +1,23 @@
-require './Checker'
-require './AccountHolder'
-require './AccountManager'
-require './Operation'
-require './FileSaving'
+require_relative 'checker'
+require_relative 'acount_holder'
+require_relative 'operation'
+require_relative 'accountmanager'
+require_relative 'dummy'
+require_relative 'tranaction'
+# require './FileSaving'
 class Main
   #include module
-  # include Account
-  extend Account_Manager
+  include Dummy
+  extend AccountManager
   extend Checker
   extend Operation
-  extend Save
-  @@accounts=[]
+  #extend Save
+  @@accounts=Dummy.to_give_dummydata
   attr_accessor :account,:operation,:auth,:save
 
   #per Instance call choice_option method
   def initialize
+    History.new
     choice_option
    
   end
@@ -24,32 +27,35 @@ class Main
   #   @account=set
   # end
   #check user is authenticate or not
-  def authentication_user(email,password)
-    mathched_detail=Checker.login(email,password,@@accounts)
+  def authentication_user(customer_id,name)
+    mathched_detail=Checker.login(customer_id,name,@@accounts)
     mathched_detail
   end
 
   #Index Page
   def choice_option
       loop do
-      puts "Enter choice (1 - Create Account, 2 - Login, 3 - save,4 - exit): "
+        puts "--------------------------------------------------------------"
+      puts "Enter choice (1 - Create Account, 2 - Login, 3 - Display,4 - exit): "
       choice=gets.chomp.strip.to_i
       case choice
       when 1
-        puts "Create Account and Fill detail"
-        @account=Account.new
-      when 2
-        puts "Enter email and Password for Login Dashborad"
-        email=account.set_email
-        password=account.set_password
-        auth=authentication_user(email,password)
-        dash_board(auth)
-      when 3
+        puts "Create Account and Fill detail #{@@accounts.length}"
+
+        @account=Account.new(@@accounts.length)
         to_save
-        puts "your detail are saved"
+      when 2
+        puts "Enter customer_id"
+        customer_id=gets.chomp.to_i 
+        auth=Checker.login(customer_id,@@accounts)
+        dash_board(auth[:customer_id])
+      when 3
+        puts "account displayed"
+        AccountManager.display(@@accounts)        # to save data on stack
       when 4
         puts "exit"
-        to_save_file
+        # to_save_file
+        puts "--------------------------------------------------------------"
         break
       else
         puts "Invalid choice"
@@ -58,25 +64,42 @@ class Main
   end
 
   #Dashboard
-  def dash_board(auth)
+  def dash_board(customer_id)
    puts "Welcome in user Dashborad........"
+   puts customer_id
    loop do
-    puts "Enter choice ('Credit', 'debit',   'display', 'close'): "
-   
+    puts "Enter choice (1 -'Credit',2- 'debit',3 - 'fund transfer',4 -  'display', 5 -'his',6- 'close'): "
+   puts "---------------------------------------------------------------"
    choice=gets.chomp.strip.downcase
    case choice
    when "credit"
-    @account=Operation.credit(auth,choice,@@accounts)
-    to_save
+    puts "enter amount for Credit"
+    amount=gets.chomp.to_i
+    @account=Operation.credit(customer_id,amount,@@accounts)
    when "debit"
-    @account=Operation.debit(auth,choice,@@accounts)
-    
+    puts "enter amount for Debit"
+    amount=gets.chomp.to_i
+    @account=Operation.debit(customer_id,amount,@@accounts)
+
+   when "transfer"
+    puts "Could you enter second customer _id"
+    # to check first
+    cus_id2=gets.chomp.to_i
+    if Checker.check(cus_id2,@@accounts)
+      puts "enter Amount"
+      amount=gets.chomp.to_i
+      Operation.to_transfer(customer_id,cus_id2,amount,@@accounts)
+    else
+      puts "Invalid is not exist"
+    end
    when "display"
-    Operation.display(auth,choice)
-    to_read_content
+    Operation.display(customer_id,@@accounts)
+    # to_read_content
+   when 'his'
+    Operation.display_histroy(@@accounts[customer_id])
    when "close"
     puts "Exit----------------"
-    to_save_file
+    # to_save_file
     break
    else
     puts "Invalid choice"
@@ -86,20 +109,21 @@ class Main
 
   #convert hash value
   def to_save 
-    temp=Account_Manager.hash_register(account)
-    @@accounts<<temp
-
+    puts account.customer_id
+    temp=AccountManager.hash_register(account)
+    @@accounts.merge!(temp)
+    puts "#{@@accounts}"
   end
    
-  #to save Data prmanent
-  def to_save_file
-   Save.to_save(@@accounts)
-  end
+  # #to save Data prmanent
+  # def to_save_file
+  #  Save.to_save(@@accounts)
+  # end
 
-  #to_read file
-   def to_read_content
-     @@accounts=save.process(@@accounts)
-   end
+  # #to_read file
+  #  def to_read_content
+  #    @@accounts=save.process(@@accounts)
+  #  end
 end
 
 Main.new 

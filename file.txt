@@ -1,7 +1,0 @@
-acc_no=101
-name=Vivek
-ph_no=777-385-3494
-acc_type=saving
-balance=1000
-email=vivek@gmail.com
-passsword=Vsoni777@
