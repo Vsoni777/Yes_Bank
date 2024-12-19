@@ -50,7 +50,7 @@ class Main
         when 2
           puts "Enter Super user Detail----------------------------"
           puts "Enter login id:-"
-          raise id=gets.chomp
+           id=gets.chomp
           puts "Enter login password:-"
            password=gets.chomp
           if Checker.super_user(id,password)
@@ -82,7 +82,7 @@ class Main
    puts customer_id
    begin
    loop do
-    puts "Enter choice (1 -'Credit',2- 'debit',3 - 'fund transfer',4 -  'display', 5 -'his',6- 'close'): "
+    puts "Enter choice (1 -'Credit',2- 'debit',3 - 'fund transfer',4 -  'display', 5 -'history',6- 'close'): "
    puts "---------------------------------------------------------------"
    choice=gets.to_i
       case choice
@@ -96,15 +96,19 @@ class Main
        amount=gets.chomp.to_i
        raise if amount<=0
        @account=Operation.debit(customer_id,amount,@@accounts)
-   
       when 3
        puts "Could you enter second customer _id"
        # to check first
        cus_id2=gets.chomp.to_i
-       if Checker.check(cus_id2,@@accounts)
+       if Checker.check(cus_id2,@@accounts) 
+        if cus_id2!=customer_id
          puts "enter Amount"
-         amount=gets.chomp.to_i
+          amount=gets.chomp.to_i
+          puts "#{amount} #{cus_id2} #{amount}"
          Operation.to_transfer(customer_id,cus_id2,amount,@@accounts)
+        else
+          puts "you can't transfer your self"
+        end
        else
          puts "Invalid is not exist"
        end
@@ -136,16 +140,7 @@ class Main
     temp=AccountManager.hash_register(account)
     @@accounts.merge!(temp)
   end
-   
-  # #to save Data prmanent
-  # def to_save_file
-  #  Save.to_save(@@accounts)
-  # end
 
-  # #to_read file
-  #  def to_read_content
-  #    @@accounts=save.process(@@accounts)
-  #  end
 end
 
 Main.new 
