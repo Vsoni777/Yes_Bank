@@ -11,16 +11,28 @@ class History
     # Display the history for a given customer_id
     if $histroy_t.key?(customer)
       puts "History for Customer ID #{customer}:"
-      p $histroy_t[customer]
+      puts "Operation    "+"  |  "+"     Amount   "+" |  "+"    balance   "+"  |  "+"  time  "+"  |  "+"   |  "+"date"
+      puts "--------------------------------------------"
+       $histroy_t[customer].each do |details|
+        puts "#{details[:operation]}"+"  |  "+"#{details[:amount]}"+"  |  "+"#{details[:balance]}"+"  |  "+" #{details[:time]}  "+" | "+"  #{details[:date]}"
+    
+        puts "------------------------------"
+      end
     else
       puts "No history found for Customer ID #{customer}."
     end
   end
 
   def self.display_history_all
+    puts "hi"
     if !$histroy_t.empty?
-      puts "History for Customer ID :"
-      p $histroy_t
+      $histroy_t.each do |key,detail|
+        puts "--------------------------------------------"
+        puts "customer_Id:      #{key}----------"
+        detail.each do |details|
+       puts "#{details[:operation]}"+"  |  "+"#{details[:amount]}"+"  |  "+"#{details[:balance]}"+"  |  "+" #{details[:time]}  "+" | "+"  #{details[:date]}"
+      end
+    end
     else
       puts "No history found for Customer ID ."
     end  end
