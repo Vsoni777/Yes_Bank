@@ -1,9 +1,12 @@
 require_relative 'tranaction'
+require_relative 'accountmanager'
 module Operation 
    #Method for credit
+   extend AccountManager
   def self.credit(customer_id,amount,accounts)
     accounts[customer_id][:balance]+=amount
-    History.add_method(customer_id,accounts[customer_id])
+    new_hash=AccountManager.hash_totranaction(accounts[customer_id],amount,'credited')
+    History.add_method(customer_id,new_hash)
   end
 
   #method for debit
@@ -13,15 +16,14 @@ module Operation
     else
       puts "Insufficent balance"
     end
-    History.add_method(customer_id,accounts[customer_id])
+    new_hash=AccountManager.hash_totranaction(accounts[customer_id],amount,'debited')
+    History.add_method(customer_id,new_hash)
   end
 
 
   def self.to_transfer(customer_id,cus_id2,amount,accounts)
-    debit(customer_id,amount,accounts)
-    credit(cus_id2,amount,accounts)
-    History.add_method(cus_id2,accounts[cus_id2])
-    History.add_method(customer_id,accounts[customer_id])
+    to_hdebit(customer_id,amount,accounts,)
+    to_hcredit(cus_id2,amount,accounts)
   end
 
   #method for display current use
@@ -38,7 +40,29 @@ module Operation
    else
     puts "Record not found"
    end
+  end
 
+
+  def self.to_hcredit(customer_id,amount,accounts)
+    accounts[customer_id][:balance]+=amount
+    new_hash1=AccountManager.hash_totranaction(accounts[customer_id],amount,'Amount credit')
+    History.add_method(customer_id,new_hash1)
+  end
+
+  def self.to_hdebit(customer_id,amount,accounts)
+    if amount<accounts[customer_id][:balance]
+      accounts[customer_id][:balance]-=amount
+      new_hash=AccountManager.hash_totranaction(accounts[customer_id],amount,'Amount debited successfully')
+      History.add_method(customer_id,new_hash)
+    else
+        puts "Insufficent balance"
+    end 
+  
+  end
+
+  #display history of account
+  def self.display_histroy(customer_id)
+    History.display_history(customer_id)
   end
 
   
