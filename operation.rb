@@ -33,7 +33,7 @@ module Operation
      puts "------------------------------"
      puts "Account Customer_id:  #{details[:customer_id]}"
      puts "Account no: #{details[:acc_no]}"
-     puts "Account no: #{details[:name]}"
+     puts "Account holder's name: #{details[:name]}"
      puts "Account no: #{details[:ph_no]}"
      puts "Account no: #{details[:acc_type]}"
      puts "Account no: #{details[:balance]}"
