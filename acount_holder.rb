@@ -21,7 +21,12 @@ class Account
   def set_name
     puts "Enter name of consumer: "
     name=gets.chomp
-    return name.strip.capitalize
+    if name.to_i==0
+      return name.strip.capitalize
+    else
+      puts "enter Valid name"
+      set_name
+    end
   end
 
   #check lengh of String and then store
