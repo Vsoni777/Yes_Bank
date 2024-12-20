@@ -66,11 +66,8 @@ class Main
         else
           puts "Invalid choice"
        end
-      end    
-    rescue StandardError
-      puts "Enter Valid detail"
-      
-    rescue RuntimeError
+      end        
+    rescue Exception
       puts "runtime error"
       
     end
@@ -104,7 +101,7 @@ class Main
         if cus_id2!=customer_id
          puts "enter Amount"
           amount=gets.chomp.to_i
-          puts "#{amount} #{cus_id2} #{amount}"
+          raise if amount<=0
          Operation.to_transfer(customer_id,cus_id2,amount,@@accounts)
         else
           puts "you can't transfer your self"
