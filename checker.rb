@@ -1,5 +1,4 @@
-$login_id="yesbank"
-$login_password="rajsir@123"
+
 module Checker 
    #check Phone_no valid or not
    def self.valid?(ph_no)
@@ -11,11 +10,11 @@ module Checker
    end
    #check login detail for authentication
    #handle exception
-   def self.login(customer_id,accounts)
-         return accounts[customer_id]
+   def self.login(customer_id)
+         return $accounts[customer_id]
    end
 
-   def self.check(customer_id,accounts)
-    return accounts.has_key?(customer_id)
+   def self.check(customer_id)
+    return $accounts.has_key?(customer_id)
    end
 end
