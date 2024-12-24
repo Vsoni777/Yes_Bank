@@ -1,6 +1,6 @@
 module Dummy
   def self.to_give_dummydata
-    return {1 => {:customer_id=>1, :acc_no=>101, :name=>"Vivek", :ph_no=>"777-385-3494", :acc_type=>"saving", :balance=>1000},
+    {1 => {customer_id: 1, :acc_no=>101, :name=>"Vivek", :ph_no=>"777-385-3494", :acc_type=>"saving", :balance=>1000},
     2 => {:customer_id=>2, :acc_no=>102, :name=>"Aayush", :ph_no=>"781-388-3385", :acc_type=>"current", :balance=>15000},
     3 => {:customer_id=>3, :acc_no=>103, :name=>"Prince", :ph_no=>"781-388-3385", :acc_type=>"saving", :balance=>15000},
     4 => {:customer_id=>4, :acc_no=>104, :name=>"Shivam", :ph_no=>"781-388-3385", :acc_type=>"current", :balance=>15000},
