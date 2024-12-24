@@ -6,86 +6,38 @@
 # :total_count - the total number of products in that category.
 # :total_price - the sum of the prices of all products in that category.
 
-$products = [
-  { name: "Laptop", price: 1000, category: "Electronics" },
-  { name: "Phone", price: 700, category: "Electronics" },
-  { name: "T-shirt", price: 20, category: "Clothing" },
-  { name: "Jeans", price: 40, category: "Clothing" },
-  { name: "Fridge", price: 500, category: "Appliances" },
-  { name: "Microwave", price: 150, category: "Appliances" }
-]
 
-# Example Output:
-
-# {
-#   "Electronics" => {
-#     products: ["Laptop", "Phone"],
-#     total_count: 2,
-#     total_price: 1700
-#   },
-#   "Clothing" => {
-#     products: ["T-shirt", "Jeans"],
-#     total_count: 2,
-#     total_price: 60
-#   },
-#   "Appliances" => {
-#     products: ["Fridge", "Microwave"],
-#     total_count: 2,
-#     total_price: 650
-#   }
-# }
-   
-
-def getarray_of(catgory)
-  arr=[]
-$products.each do |product|
-  if catgory==product[:category]
-     arr<<product[:name]
-  end
-end
-return arr
-end
-
-def get_totalcount(catgory)
-  count=0
-  $products.each do |product|
-    if catgory==product[:category]
-        count+=1
-    end
-  end
-  return count
-end
-
-def get_totalpice(catgory)
-  price=0
-  $products.each do |product|
-    if catgory==product[:category]
-        price+=product[:price]
-    end
-  end
-  return price
-end
-
-def create_newhash
-  arr=[]
-  new_arr=[]
-  $products.each do |product|
-     value=product[:category]
-     new_arr<<value
-  end
-   new_arr.uniq!.each do |catgory|
-     arr<<to_insert(catgory)
+class Product 
+  attr_accessor :products
+   def initialize
+     @products = [
+      { name: "Laptop", price: 1000, category: "Electronics" },
+      { name: "Phone", price: 700, category: "Electronics" },
+      { name: "T-shirt", price: 20, category: "Clothing" },
+      { name: "Jeans", price: 40, category: "Clothing" },
+      { name: "Fridge", price: 500, category: "Appliances" },
+      { name: "Microwave", price: 150, category: "Appliances" }
+    ]
    end
-   return arr
+
+   def make_hash
+    result={}
+    products.each do |product|
+      category=product[:category]
+      result[category] ||={product: [],total_count: 0,total_price: 0.0}
+      result[category][:product]<<product[:name]
+      result[category][:total_count]+=1
+      result[category][:total_price]+=product[:price]
+    end
+    result
+   end
+
+   def search_word(category)
+     products.select{|element| element[:category]==category}.map { |element| element[:name]}
+   end
 end
 
-def to_insert(catgory)
-  return {
-    catgory  =>   getarray_of(catgory),
-    total_count: get_totalcount(catgory),
-     total_price: get_totalpice(catgory)
-  }
-end
+m= Product.new
+p m.search_word("Electronics")
 
- arr=create_newhash
- puts arr
+   
