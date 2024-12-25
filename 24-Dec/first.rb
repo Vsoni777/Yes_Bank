@@ -1,7 +1,7 @@
 class LongSub
   attr_accessor :str
   
-  def initialize(str = "pwwkew")
+  def initialize(str)
     @str = str
   end
   
@@ -28,5 +28,5 @@ class LongSub
   end
 end
 
-result = LongSub.new("vjiqenrgeqpwwkew").max_non_repeated
+result = LongSub.new("pwuiwkeuiw").max_non_repeated
 p result  
