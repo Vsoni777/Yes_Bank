@@ -13,6 +13,7 @@ class Finder
 
   def process(input, word_count)
     case input
+    
     when String, Symbol
       input=input.to_s
       for_string(input,word_count)

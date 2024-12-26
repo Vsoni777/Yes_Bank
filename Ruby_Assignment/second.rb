@@ -8,7 +8,8 @@
 
 
 class Product 
-  attr_accessor :products
+  attr_accessor :products,:result
+  @@count=0
    def initialize
      @products = [
       { name: "Laptop", price: 1000, category: "Electronics" },
@@ -18,10 +19,11 @@ class Product
       { name: "Fridge", price: 500, category: "Appliances" },
       { name: "Microwave", price: 150, category: "Appliances" }
     ]
+    @result={}
    end
 
    def make_hash
-    result={}
+    if result.empty?
     products.each do |product|
       category=product[:category]
       result[category] ||={product: [],total_count: 0,total_price: 0.0}
@@ -29,15 +31,15 @@ class Product
       result[category][:total_count]+=1
       result[category][:total_price]+=product[:price]
     end
-    result
+    @@count+=1
+    end
    end
 
    def search_word(category)
-     products.select{|element| element[:category]==category}.map { |element| element[:name]}
+    p result[category]&[:product]
    end
 end
 
 m= Product.new
-p m.search_word("Electronics")
-
-   
+m.make_hash
+m.search_word("cwqejof")
