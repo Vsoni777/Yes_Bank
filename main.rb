@@ -1,16 +1,25 @@
-require './Checker'
-require './AccountHolder'
-require './AccountManager'
-require './Operation'
-require './FileSaving'
+require_relative 'checker'
+require_relative 'acount_holder'
+require_relative 'operation'
+require_relative 'accountmanager'
+require_relative 'dummy'
+require_relative 'tranaction'
+require_relative 'authentication'
+require_relative 'customer'
+$histroy_t = Hash.new { |hash, key| hash[key] = [] }
+$login_id="yesbank"
+$login_password="rajsir@123"
+$accounts=Dummy.to_give_dummydata
+
 class Main
   #include module
-  # include Account
-  extend Account_Manager
+  include Dummy
+  extend AccountManager
   extend Checker
   extend Operation
-  extend Save
-  @@accounts=[]
+  include History
+  include CustomerDashBorad
+  # @@accounts=Dummy.to_give_dummydata
   attr_accessor :account,:operation,:auth,:save
 
   #per Instance call choice_option method
@@ -19,87 +28,52 @@ class Main
    
   end
 
-  # #to get Account_holder detail
-  # def account_holder
-  #   @account=set
-  # end
-  #check user is authenticate or not
-  def authentication_user(email,password)
-    mathched_detail=Checker.login(email,password,@@accounts)
-    mathched_detail
-  end
+
 
   #Index Page
   def choice_option
-      loop do
-      puts "Enter choice (1 - Create Account, 2 - Login, 3 - save,4 - exit): "
-      choice=gets.chomp.strip.to_i
-      case choice
-      when 1
-        puts "Create Account and Fill detail"
-        @account=Account.new
-      when 2
-        puts "Enter email and Password for Login Dashborad"
-        email=account.set_email
-        password=account.set_password
-        auth=authentication_user(email,password)
-        dash_board(auth)
-      when 3
-        to_save
-        puts "your detail are saved"
-      when 4
-        puts "exit"
-        to_save_file
-        break
-      else
-        puts "Invalid choice"
-      end
-    end
-  end
-
-  #Dashboard
-  def dash_board(auth)
-   puts "Welcome in user Dashborad........"
-   loop do
-    puts "Enter choice ('Credit', 'debit',   'display', 'close'): "
-   
-   choice=gets.chomp.strip.downcase
-   case choice
-   when "credit"
-    @account=Operation.credit(auth,choice,@@accounts)
-    to_save
-   when "debit"
-    @account=Operation.debit(auth,choice,@@accounts)
     
-   when "display"
-    Operation.display(auth,choice)
-    to_read_content
-   when "close"
-    puts "Exit----------------"
-    to_save_file
-    break
-   else
-    puts "Invalid choice"
-   end
-  end
-  end
+      loop do
+      begin
+        puts "--------------------------------------------------------------"
+        puts "Enter choice (1 - Login, 2- super_user,3 - exit): "
+        choice=gets.chomp.strip.to_i
+       case choice  
+        when 1
+          puts "Enter customer_id"
+           customer_id=gets.chomp.to_i 
+           raise if customer_id<=0
+          auth=Checker.login(customer_id)
+          CustomerDashBorad.dash_board(auth[:customer_id])
+        when 2
+          puts "Enter Super user Detail----------------------------"
+          puts "Enter login id:-"
+           id=gets.chomp
+          puts "Enter login password:-"
+           password=gets.chomp
+          if Checker.super_user(id,password)
+            AccountManager.dash_board
+          else
+            puts "Invalid User"
+          end
+        when 3
+          puts "exit"
+          # to_save_file
+          puts "--------------------------------------------------------------"
+          break
+        else
+          puts "Invalid choice"
+       end
+      end        
+    rescue Exception
+      puts "failed"
+      
+    end
+  end  
 
-  #convert hash value
-  def to_save 
-    temp=Account_Manager.hash_register(account)
-    @@accounts<<temp
+ 
 
-  end
-   
-  #to save Data prmanent
-  def to_save_file
-   Save.to_save(@@accounts)
-  end
 
-  #to_read file
-   def to_read_content
-     @@accounts=save.process(@@accounts)
-   end
 end
 
 Main.new 
