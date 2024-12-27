@@ -1,5 +1,5 @@
 require "minitest/autorun"
-
+require_relative './meme'
 describe Meme do
   before do
     @meme = Meme.new
@@ -14,6 +14,16 @@ describe Meme do
   describe "when asked about blending possibilities" do
     it "won't say no" do
       _(@meme.will_it_blend?).wont_match /^no/i
+    end
+  end
+end
+
+describe "Meme Benchmark" do
+  if ENV["BENCH"] then
+    bench_performance_linear "my_algorithm", 0.9999 do |n|
+      100.times do
+        @obj.my_algorithm(n)
+      end
     end
   end
 end
