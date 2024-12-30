@@ -20,7 +20,7 @@ class Account
     puts "Enter name of consumer: "
     name=gets.chomp
     if name.to_i==0
-      return name.strip.capitalize
+       name.strip.capitalize
     else
       puts "enter Valid name"
       set_name
