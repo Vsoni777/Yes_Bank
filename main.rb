@@ -1,5 +1,5 @@
 require_relative 'checker'
-require_relative 'acount_holder'
+require_relative 'account_holder'
 require_relative 'operation'
 require_relative 'accountmanager'
 require_relative 'dummy'
@@ -20,7 +20,7 @@ class Main
   include History
   include CustomerDashBorad
   # @@accounts=Dummy.to_give_dummydata
-  attr_accessor :account,:operation,:auth,:save
+  # attr_accessor :account,:operation,:auth,:save
 
   #per Instance call choice_option method
   def initialize
