@@ -1,11 +1,11 @@
-require_relative 'checker'
-require_relative 'acount_holder'
-require_relative 'operation'
-require_relative 'accountmanager'
-require_relative 'dummy'
-require_relative 'tranaction'
-require_relative 'authentication'
-require_relative 'customer'
+require './checker'
+require './account_holder'
+require './operation'
+require './accountmanager'
+require './dummy'
+require './tranaction'
+require './authentication'
+require './customer'
 $histroy_t = Hash.new { |hash, key| hash[key] = [] }
 $login_id="yesbank"
 $login_password="rajsir@123"

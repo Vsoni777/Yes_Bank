@@ -48,7 +48,8 @@ module Operation
   end
 
   #method for display current use
-  def self.display(customer_id)
+  def self.display(customer_id)ay(customer_id)
+    puts "hi #{customer_id}"
    details= $accounts[customer_id]
    if details
      puts "------------------------------"

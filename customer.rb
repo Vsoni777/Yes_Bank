@@ -36,7 +36,7 @@ module CustomerDashBorad
         puts "Invalid is not exist"
       end
      when 4
-      Operation.display(customer_id)
+          Operation.display(customer_id)
       # tendo_read_content
      when 5
       if Checker.check(customer_id)
